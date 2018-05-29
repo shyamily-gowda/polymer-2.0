@@ -1,0 +1,52 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html"/>
+<link rel="import" href="../bower_components/paper-input/paper-input-container.html"/>
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html"/>
+
+<link rel="import" href="todo-data.html"/>
+<link rel="import" href="todo-list.html"/>
+
+<dom-module id="todo-view">
+    <template>
+        <div>
+            <div>                                  
+                    Add todo item: <input value="{{prop1::input}}"/>
+                   
+                    <button on-click="_add" data-todo$="[[prop1]]">Add</button>                
+            </div>
+            <div>
+                <todo-data todos="{{todos}}"></todo-data>  
+                <h3>Incompleted todo item</h3>      
+                    <todo-list filter-by="incompleted" todos="{{todos}}"></todo-list>
+                <h3>Completed todo item</h3>      
+                    <todo-list filter-by="completed" todos="{{todos}}"></todo-list>
+            </div>
+        </div>
+    </template>
+    <script>
+        class TodoView extends Polymer.Element{
+            static get is(){ return 'todo-view'};
+            static get properties(){
+                return {
+                    prop1: {
+                        type: String,
+                        value: ''
+                    }
+                }               
+            }
+            _add(todo){
+                var todo = todo.target.dataset.todo;  
+                if(todo){
+                    this.push('todos',{
+                        name:todo,
+                        done: false
+                    })
+                    todo = null;
+                    this.prop1 = null;
+                }
+            }
+            
+        }
+        window.customElements.define(TodoView.is,TodoView);
+    </script>
+
+</dom-module>

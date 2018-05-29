@@ -1,0 +1,44 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html"/>
+<link rel="import" href="todo-item.html"/>
+<link rel="import" href="../bower_components/polymer/lib/elements/dom-repeat.html"/>
+
+<dom-module id="todo-list">
+    <template>
+        <ul>
+            <template is="dom-repeat" as="todo" items="{{todos}}" observe="done" filter="{{_filter(filterBy)}}">                
+                <todo-item todo="{{todo}}" on-delete></todo-item>
+            </template>
+        </ul>
+    </template>
+    <script>
+        class TodoList extends Polymer.Element{
+            static get is(){ return 'todo-list'};
+            static get properties(){
+                return {
+                    filterBy: {
+                        type : String,
+                        value:'all'
+                    }                  
+                }                
+            }
+            _filter(filterBy){                       
+                        return function(todo){
+                            if(filterBy === 'all'){
+                                return true;
+                            }else if(filterBy === 'incompleted'){
+                                return !todo.done;
+                            }else if(filterBy === 'completed'){
+                                return todo.done
+                            }else{
+                                return false;
+                            }
+                        }                    
+            }
+            _delete(e){
+                var index = this.tods.indexOf(e.detail);
+                this.splice('todos',index,1);
+            }
+        }
+        window.customElements.define(TodoList.is,TodoList);
+    </script>
+</dom-module>

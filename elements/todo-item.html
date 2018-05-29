@@ -1,0 +1,37 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html"/>
+<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html"/>
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html"/>
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html"/>
+<link rel="import" href="../bower_components/paper-material/paper-material-shared-styles.html"/>
+
+<dom-module id="todo-item">    
+    <template>   
+        <style>
+                paper-material-shared-styles{
+                    @apply --layout-vertical;                    
+                }
+        </style>                
+        <paper-material-shared-styles elevation="1">
+            <paper-checkbox checked="{{todo.done}}">
+                {{todo.name}}
+            </paper-checkbox>
+            <button class="delete-button" on-click="_delete">X</button>
+           
+            <paper-icon-button class="delete-button" icon="delete" on-tap="_delete"></paper-icon-button>
+        </paper-material-shared-styles>        
+    </template>
+    <script>
+        class TodoItem extends Polymer.Element{
+            static get is(){ return 'todo-item'};
+            static get properties(){
+                return {
+
+                }
+            }
+            _delete(){
+                this.fire('delete',this.todo);
+            }
+        }
+        window.customElements.define(TodoItem.is,TodoItem);
+    </script>
+</dom-module>
